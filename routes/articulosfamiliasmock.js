@@ -45,7 +45,7 @@ let arr_ArticulosFamiliasMock = [
     }
   ];
   
-  // articulos segun nombre
+  // articulo segun nombre y listado completo si no se especifica nombre
   router.get('/api/articulosfamiliasmock/', async function (req, res) {
     const { Nombre } = req.query;
     if (Nombre) {
