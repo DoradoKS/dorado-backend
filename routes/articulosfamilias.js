@@ -12,9 +12,6 @@ router.get("/api/articulosfamilias", async function (req, res, next) {
 
 
 router.get("/api/articulosfamilias/:id", async function (req, res, next) {
-    // #swagger.tags = ['ArticulosFamilias']
-    // #swagger.summary = 'obtiene un ArticuloFamilia'
-    // #swagger.parameters['id'] = { description: 'identificador del ArticulosFamilias...' }
     let data = await db.articulosfamilias.findAll({
       attributes: ["IdArticuloFamilia", "Nombre"],
       where: { IdArticuloFamilia: req.params.id },

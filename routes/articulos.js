@@ -5,10 +5,6 @@ const { Op, ValidationError } = require("sequelize");
 const auth = require("../seguridad/auth");
 
 router.get("/api/articulos", async function (req, res, next) {
-  // #swagger.tags = ['Articulos']
-  // #swagger.summary = 'obtiene todos los Articulos'
-  // consulta de articulos con filtros y paginacion
-
   let where = {};
   if (req.query.Nombre != undefined && req.query.Nombre !== "") {
     where.Nombre = {
@@ -16,8 +12,6 @@ router.get("/api/articulos", async function (req, res, next) {
     };
   }
   if (req.query.Activo != undefined && req.query.Activo !== "") {
-    // true o false en el modelo, en base de datos es 1 o 0
-    // convierto el string a booleano
     where.Activo = req.query.Activo === "true";
   }
   const Pagina = req.query.Pagina ?? 1;
@@ -41,9 +35,6 @@ router.get("/api/articulos", async function (req, res, next) {
 });
 
 router.get("/api/articulos/:id", async function (req, res, next) {
-  // #swagger.tags = ['Articulos']
-  // #swagger.summary = 'obtiene un Articulo'
-  // #swagger.parameters['id'] = { description: 'identificador del Articulo...' }
   let items = await db.articulos.findOne({
     attributes: [
       "IdArticulo",
@@ -61,13 +52,6 @@ router.get("/api/articulos/:id", async function (req, res, next) {
 });
 
 router.post("/api/articulos/", async (req, res) => {
-  // #swagger.tags = ['Articulos']
-  // #swagger.summary = 'agrega un Articulos'
-  /*    #swagger.parameters['item'] = {
-                in: 'body',
-                description: 'nuevo Articulo',
-                schema: { $ref: '#/definitions/Articulos' }
-    } */
   try {
     let data = await db.articulos.create({
       Nombre: req.body.Nombre,
@@ -93,15 +77,6 @@ router.post("/api/articulos/", async (req, res) => {
 });
 
 router.put("/api/articulos/:id", async (req, res) => {
-  // #swagger.tags = ['Articulos']
-  // #swagger.summary = 'actualiza un Articulo'
-  // #swagger.parameters['id'] = { description: 'identificador del Articulo...' }
-  /*    #swagger.parameters['Articulo'] = {
-                in: 'body',
-                description: 'Articulo a actualizar',
-                schema: { $ref: '#/definitions/Articulos' }
-    } */
-
   try {
     let item = await db.articulos.findOne({
       attributes: [
@@ -129,19 +104,6 @@ router.put("/api/articulos/:id", async (req, res) => {
     item.Activo = req.body.Activo;
     await item.save();
 
-    // otra forma de hacerlo
-    // let data = await db.articulos.update(
-    //   {
-    //     Nombre: req.body.Nombre,
-    //     Precio: req.body.Precio,
-    //     CodigoDeBarra: req.body.CodigoDeBarra,
-    //     IdArticuloFamilia: req.body.IdArticuloFamilia,
-    //     Stock: req.body.Stock,
-    //     FechaAlta: req.body.FechaAlta,
-    //     Activo: req.body.Activo,
-    //   },
-    //   { where: { IdArticulo: req.params.id } }
-    // );
     res.sendStatus(200);
   } catch (err) {
     if (err instanceof ValidationError) {
@@ -157,10 +119,6 @@ router.put("/api/articulos/:id", async (req, res) => {
 });
 
 router.delete("/api/articulos/:id", async (req, res) => {
-  // #swagger.tags = ['Articulos']
-  // #swagger.summary = 'elimina un Articulo'
-  // #swagger.parameters['id'] = { description: 'identificador del Articulo..' }
-
   let bajaFisica = false;
 
   if (bajaFisica) {
